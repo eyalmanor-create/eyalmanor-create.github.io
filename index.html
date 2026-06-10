@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hi Eyal</title>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -55,6 +56,29 @@
       font-weight: normal;
       letter-spacing: 0.08em;
       text-shadow: 0 0 30px rgba(180, 210, 255, 0.6);
+    }
+
+    .clocks {
+      display: flex;
+      gap: 48px;
+      font-family: 'VT323', monospace;
+      font-size: 1.6rem;
+      color: #7fffb2;
+      text-shadow: 0 0 10px rgba(100, 255, 160, 0.6);
+      letter-spacing: 0.05em;
+    }
+
+    .clock-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .clock-label {
+      font-size: 1rem;
+      color: #5bcf8a;
+      letter-spacing: 0.15em;
     }
 
   </style>
@@ -131,9 +155,31 @@
 
   <div class="content">
     <h1 id="greeting"></h1>
+    <div class="clocks">
+      <div class="clock-item">
+        <span id="clock-ny"></span>
+        <span class="clock-label">NEW YORK</span>
+      </div>
+      <div class="clock-item">
+        <span id="clock-sg"></span>
+        <span class="clock-label">SINGAPORE</span>
+      </div>
+    </div>
   </div>
 
   <script>
+    // World clocks
+    function updateClocks() {
+      const fmt = tz => new Intl.DateTimeFormat('en-US', {
+        hour: '2-digit', minute: '2-digit', second: '2-digit',
+        hour12: false, timeZone: tz
+      }).format(new Date());
+      document.getElementById('clock-ny').textContent = fmt('America/New_York');
+      document.getElementById('clock-sg').textContent = fmt('Asia/Singapore');
+    }
+    updateClocks();
+    setInterval(updateClocks, 1000);
+
     // Dynamic greeting
     const hour = new Date().getHours();
     const greeting = hour < 12 ? 'Good Morning'
